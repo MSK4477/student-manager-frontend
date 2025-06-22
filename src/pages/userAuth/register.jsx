@@ -3,7 +3,7 @@ import { register }from "../../service/userService/authService.js";
 import { toast } from "react-toastify";
 import Input from "../../components/inputForm";
 import Button from "../../components/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import inv9 from "../svg/inv9.jpg"
 import Loader from "../loader.jsx";
 const initialState = {
@@ -14,6 +14,8 @@ const initialState = {
 };
 
 const Register = () => {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState(initialState);
 const [load, setLoad] = useState(true)
   const handleChange = (e) => {
@@ -28,14 +30,11 @@ const [load, setLoad] = useState(true)
     try {
       const response = await register(formData);
       if(response.message){
-        toast.success("User Registred Succesfully");
-        toast.success("Verify Your Email By Clicking On The Link We Sent To Your Email");
+        toast.success("User Registred Succesfully Login To Continue");
+        navigate("/login");
         setLoad(false)
 
       }
-      console.log("hi")
-
-      console.log(response);
     } catch (err) {
       toast.error(err.response.data.error);
       console.log(err.response.data.error)

@@ -7,8 +7,7 @@ const EditProfile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // const initialState = 
-  const [user, setUser] = useState([]);
+   const [user, setUser] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -20,8 +19,7 @@ const EditProfile = () => {
       }
     };
     fetchUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
