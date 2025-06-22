@@ -87,8 +87,6 @@ const CreateStudent = () => {
       const fetchStudent = async () => {
           try {
           const res = await getStudentById(id);
-
-           console.log(res, "res")
           const formattedDob = res.data.dob?.split("T")[0] || "";
           setFormInitialValues({
             ...res?.data,

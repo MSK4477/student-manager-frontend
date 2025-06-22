@@ -26,13 +26,11 @@ const {name, value} = e.target
       );
       if (response.message) {
         toast.success(response.message);
-        console.log(response);
-        setLoad(false)
+         setLoad(false)
       }
     } catch (err) {
       toast.error(err.response.data.error);
-      console.log(err.response.data.error)
-    } finally { 
+     } finally { 
       setLoader(false)
     }
   };

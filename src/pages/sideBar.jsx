@@ -27,8 +27,7 @@ const Sidebar = () => {
   const loggedOut = async () => {
     try {
       const response = await logout();
-      console.log(response);
-      if (response) {
+       if (response) {
         localStorage.removeItem("user");
         window.location.href = "/login";
       }

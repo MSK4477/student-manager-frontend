@@ -24,8 +24,7 @@ const navigate = useNavigate();
     try {
       const response = await login(formData)
        
-      console.log(response.message);
-      if (response.message == "User has been signed-in successfully") {
+       if (response.message == "User has been signed-in successfully") {
       toast.success("Logged-In Succesfull");
         navigate("/");
         const user = {
