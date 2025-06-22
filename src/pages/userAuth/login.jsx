@@ -77,7 +77,7 @@ const navigate = useNavigate();
           />
           <br />
           <div>
-            {"Didn't"} have an Account{" "}
+            {"Don't"} have an Account{" "}
             <Link to="/register" className="text-blue-500 hover:text-blue-700">
               register
             </Link>{" "}
@@ -86,7 +86,7 @@ const navigate = useNavigate();
               className="text-blue-500 hover:text-blue-700"
               to={"/forgotPassword"}
             >
-              forgotPassword
+              Forgot password
             </Link>
           </div>
 
