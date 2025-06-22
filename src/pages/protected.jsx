@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom";
- const ProtectedPage = ({ element }) => {
+ 
+const ProtectedPage = ({ element }) => {
 
-  if (true) {
+  if (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'))) {
         return element;
   }
 

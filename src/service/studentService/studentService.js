@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000"; 
+const BASE_URL = "https://student-manager-backend-3.onrender.com"; 
 
 export const createStudent = async (studentData) => {
   const response = await axios.post(
