@@ -7,7 +7,6 @@ import Login from "./pages/userAuth/login";
 import Register from "./pages/userAuth/register";
 import ForgotPassword from "./pages/userAuth/forgotPassword";
 import ResetPassword from "./pages/userAuth/resetPassword";
-import Verify from "./pages/userAuth/verify";
 import Sidebar from "./pages/sideBar";
 import CreateStudent from "./pages/students/addStudent.jsx";
 
