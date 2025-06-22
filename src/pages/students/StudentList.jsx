@@ -11,22 +11,23 @@ const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterText, setFilterText] = useState("");
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
+
   const fetchStudents = async () => {
     try {
-      const response = await getStudents()
-      setLoader(true)
-      setStudents(response?.data);
-      setLoading(false);
+      setLoader(true);
+      const response = await getStudents();
+      setStudents(response?.data || []);
     } catch (err) {
       console.error(err);
+      toast.error("Failed to fetch students");
+    } finally {
       setLoading(false);
-    }finally{
       setLoader(false);
     }
   };
- 
+
   const handleDelete = async (id) => {
     try {
       await deleteStudent(id);
@@ -39,7 +40,6 @@ const StudentList = () => {
   };
 
   useEffect(() => {
-    setLoader(true);
     fetchStudents();
   }, []);
 
@@ -71,11 +71,12 @@ const StudentList = () => {
     {
       name: "Actions",
       cell: (row) => (
-        <div onClick={() => navigate("/add-student", { state: { id: row._id } })}
-            className="flex gap-4 text-lg">
-          <Link to={`/add-student/${row?._id}`}>
-            <FaEdit className="text-blue-600 cursor-pointer" title="Edit" />
-          </Link>
+        <div className="flex gap-4 text-lg">
+          <FaEdit
+            className="text-blue-600 cursor-pointer" 
+            title="Edit"
+            onClick={() => navigate("/add-student", { state: { id: row._id } })}
+          />
           <FaTrash
             className="text-red-600 cursor-pointer"
             title="Delete"
@@ -89,30 +90,30 @@ const StudentList = () => {
     },
   ];
 
-const filteredData = useMemo(() => {
-  const text = filterText.toLowerCase();
-  return students?.length ? students : [].filter((student) => {
-    return (
-      student?.fullName?.toLowerCase().includes(text) ||
-      student?.department?.toLowerCase().includes(text) ||
-      student?.skills?.toLowerCase().includes(text)
-    );
-  });
-}, [students, filterText]);
+  const filteredData = useMemo(() => {
+    const text = filterText.toLowerCase();
+    return students.filter((student) => {
+      return (
+        student?.fullName?.toLowerCase().includes(text) ||
+        student?.department?.toLowerCase().includes(text) ||
+        student?.skills?.join(", ")?.toLowerCase().includes(text)
+      );
+    });
+  }, [students, filterText]);
 
   return (
     <div className="w-[calc(100%-16%)] absolute left-48 top-0 p-[5vmax]">
-
-       {loader && <div className="flex justify-center items-center h-screen">
-  <Loader />
-</div> }
-      {students.length && !loader ? (
+      {loader ? (
+        <div className="flex justify-center items-center h-screen">
+          <Loader />
+        </div>
+      ) : students.length ? (
         <>
-        <div className="text-2xl font-bold mb-4 text-blue-600 tracking-wide">
-                🎓 Student's List
-              </div> 
+          <div className="text-2xl font-bold mb-4 text-blue-600 tracking-wide">
+            🎓 Student's List
+          </div>
+
           <div className="flex justify-between items-center mb-4">
-            
             <input
               type="text"
               placeholder="Search by name, department, or skills"
@@ -130,15 +131,6 @@ const filteredData = useMemo(() => {
             responsive
             progressPending={loading}
             noDataComponent="No students found"
-            subHeaderComponent={
-            <input
-              type="text"
-              placeholder="Search by name, department, or skills"
-              value={filterText}
-              onChange={(e) => setFilterText(e.target.value)}
-              className="p-2 border border-gray-300 rounded w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-            }
           />
         </>
       ) : (

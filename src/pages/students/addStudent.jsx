@@ -54,9 +54,10 @@ const CreateStudent = () => {
   const years = ["First Year", "Second Year", "Third Year", "Final Year"];
   const skillsList = ["JavaScript", "Python", "C++", "HTML/CSS", "Java"];
 
-  const handleSubmit = async (values, {resetForm}) => {
+const handleSubmit = async (values, { resetForm }) => {
+  setLoader(true);
+  try {
     const formData = new FormData();
-
     formData.append("fullName", values.fullName);
     formData.append("email", values.email);
     formData.append("phone", values.phone);
@@ -69,18 +70,28 @@ const CreateStudent = () => {
     formData.append("profileImage", values?.profileImage);
 
     const res = await (id ? updateStudent(id, formData) : createStudent(formData));
-    if(res.success) {
-     resetForm()
-     setPreview("");
-     if (fileInputRef.current) {
-              fileInputRef.current.value = null;  
-            }
-     if(id){
-      navigate("/students")
-     }
+
+    if (res.success) {
+      resetForm();
+      setPreview("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
+      toast.success(`Student ${id ? "updated" : "created"} successfully!`);
+      if (id) {
+        navigate("/students");
+      }
+    } else {
+      toast.error("Something went wrong. Please try again.");
     }
-    toast.success(`Student ${id ? "updated" : "created"} successfully!`);
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Error while submitting the form.");
+  } finally {
+    setLoader(false);
+  }
+};
+
  
   useEffect(() => {
     if (id) {
@@ -107,7 +118,7 @@ const CreateStudent = () => {
       fetchStudent();
     }
   }, [id]);
-console.log(loader, "loader")
+ 
   return (
     <>
     
